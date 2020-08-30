@@ -1,6 +1,6 @@
 # Unreal Engine C++ Command Line Game
 
-##The Bull Cow Game!
+## The Bull Cow Game!
 
 This short c++ game demonstrates basic C++ code fundamentals used with the Unreal Engien Platform.  
 This includes a starter kit with the focus on a Terminal input the user will use to guess a Hetorogram,  
