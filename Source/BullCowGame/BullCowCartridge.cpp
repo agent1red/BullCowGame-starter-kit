@@ -24,7 +24,8 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
      
     }
     
-    // Check if Isogram
+    
+
     // Check for right number of characters
     // Promp to guess again
     
@@ -59,8 +60,6 @@ void UBullCowCartridge::SetupGame()
 void UBullCowCartridge::EndGame()
 {
     bGameOver = true;
-    ClearScreen();
-    PrintLine(TEXT("The hidden word was: %s"), *HiddenWord);
     PrintLine(TEXT("\nGame Over!! Press enter to play again."));
 }
 
@@ -73,7 +72,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
             EndGame();
             return;
         } 
-        
+
         if (Guess.IsEmpty())
         {
             PrintLine(TEXT("Please Enter your guess.."));
@@ -87,11 +86,57 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
             return;
         }
 
+          if (!IsIsogram(Guess)) // Check if Isogram
+        {
+            PrintLine(TEXT("There are no repeating letters! \nGuess again..."));
+            return;
+        }
+
         if (Lives <= 0)
         {
             ClearScreen();
+            PrintLine(TEXT("The hidden word was: %s"), *HiddenWord);
             PrintLine(TEXT("You have no lives left!"));
             EndGame();
             return;       
         }
+}
+
+bool UBullCowCartridge::IsIsogram(FString Word) const
+{
+
+    for (int32 Index = 0; Index < Word.Len(); Index++)
+    {
+        for (int32 Comparison = Index + 1; Comparison < Word.Len(); Comparison++)
+        {
+            if (Word[Index] == Word[Comparison])
+            {
+                return false;
+            }
+        }
+    }
+    
+    return true;
+    // int32 Index = 0;
+    // int32 Comparison = Index + 1;
+
+    // for (; Comparison < Word.Len(); Comparison++)
+    // {
+    //     if (Word[Index] == Word[Comparison])
+    //     {
+    //         return false;
+    //     }
+        
+    // }
+    
+
+    // For each letter 
+    // start at element [0]
+    // compare against the next Letter 
+    // until we reach [Word.Len() -1]
+    // if the any are the same return false 
+
+
+
+    
 }
