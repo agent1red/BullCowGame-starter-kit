@@ -24,12 +24,6 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
      
     }
     
-    
-
-    
-   
-
-
     // Check if Isogram
     // Check for right number of characters
     // Promp to guess again
@@ -65,7 +59,9 @@ void UBullCowCartridge::SetupGame()
 void UBullCowCartridge::EndGame()
 {
     bGameOver = true;
-    PrintLine(TEXT("Game Over!! Press enter to play again."));
+    ClearScreen();
+    PrintLine(TEXT("The hidden word was: %s"), *HiddenWord);
+    PrintLine(TEXT("\nGame Over!! Press enter to play again."));
 }
 
 void UBullCowCartridge::ProcessGuess(FString Guess)
@@ -75,31 +71,27 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
         {
             PrintLine(TEXT("You guessed correct! You Win the Game!"));
             EndGame();
-        } else if (Guess.IsEmpty())
+            return;
+        } 
+        
+        if (Guess.IsEmpty())
         {
             PrintLine(TEXT("Please Enter your guess.."));
+            return;
         }
-        else
+        --Lives;// Remove a life at this point in checks 
+        if (Guess.Len() != HiddenWord.Len() && Lives > 0)
         {
-            --Lives;
-            if (Guess.Len() != HiddenWord.Len())
-            {
-                
-                
-                PrintLine(TEXT("The Hidden Word is %i Characters long \nYou lost a life"), HiddenWord.Len());
-                if (Lives > 0)
-                {
-                    
-                    PrintLine(TEXT("Sorry guess again!! \nYou have %i Lives left"), Lives);
-                }
-                else
-                {
-                    ClearScreen();
-                    PrintLine(TEXT("You have no lives left!"));
-                    EndGame();
-                } 
-               
-            }
-        
+            PrintLine(TEXT("The Hidden Word is %i Characters long \nYou lost a life"), HiddenWord.Len());
+            PrintLine(TEXT("Sorry guess again!! \nYou have %i Lives left"), Lives);
+            return;
+        }
+
+        if (Lives <= 0)
+        {
+            ClearScreen();
+            PrintLine(TEXT("You have no lives left!"));
+            EndGame();
+            return;       
         }
 }
