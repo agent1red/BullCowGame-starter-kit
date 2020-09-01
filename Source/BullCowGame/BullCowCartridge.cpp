@@ -22,24 +22,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     {
         ProcessGuess(Input);
      
-    }
-    
-    
-
-    // Check for right number of characters
-    // Promp to guess again
-    
-    // Remove Life 
-
-    // Check if Lives > 0 
-    // If yes GuessAgain
-    // Show lives left
-    // If no show GameOver and Hiddenword
-    // Press Enter to play again 
-    // check user input 
-    // PlayAgain or quit 
-    
-    
+    }    
 
 }
 
@@ -116,27 +99,5 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
         }
     }
     
-    return true;
-    // int32 Index = 0;
-    // int32 Comparison = Index + 1;
-
-    // for (; Comparison < Word.Len(); Comparison++)
-    // {
-    //     if (Word[Index] == Word[Comparison])
-    //     {
-    //         return false;
-    //     }
-        
-    // }
-    
-
-    // For each letter 
-    // start at element [0]
-    // compare against the next Letter 
-    // until we reach [Word.Len() -1]
-    // if the any are the same return false 
-
-
-
-    
+    return true;   
 }
