@@ -4,10 +4,22 @@
 const TArray<FString> Words = 
 {
     TEXT("cape"),
+    TEXT("a"),
+    TEXT("caperrelationing"),
+    TEXT("aabbcc"),
+    TEXT("aabbcc"),
+    TEXT("aabbcc"),
+    TEXT("aabbcc"),
+    TEXT("aabbcc"),
+    TEXT("radial"),
+    TEXT("radial"),
+    TEXT("radial"),
+    TEXT("radial"),
+    TEXT("radial"),
     TEXT("purse"),
     TEXT("brink"),
     TEXT("inlay"),
-    TEXT("noted")
+    TEXT("noted"),
     TEXT("valid"),
     TEXT("grand"),
     TEXT("trial"),
@@ -759,5 +771,5 @@ const TArray<FString> Words =
     TEXT("marsh"),
     TEXT("ricky"),
     TEXT("stake")
-}
+};
 
