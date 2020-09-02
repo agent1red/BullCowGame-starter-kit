@@ -1,10 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
-#include "HiddenWordList.h"
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
 
 void UBullCowCartridge::BeginPlay() // When the game starts 
 {
     Super::BeginPlay();
+    TArray<FString> Words;
+    const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordsList/HiddenWordList.txt");
+    FFileHelper::LoadFileToStringArray(Words, *WordListPath);
     GetValidWords(Words);
     SetupGame(); 
 
@@ -12,9 +16,6 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     PrintLine(TEXT("The number of valid words is: %i"), GetValidWords(Words).Num());
     PrintLine(TEXT("The HiddenWord is: %s"), *HiddenWord); // Debug Line   
 
-
-  
-    
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
@@ -53,7 +54,7 @@ void UBullCowCartridge::EndGame()
     PrintLine(TEXT("\nGame Over!! Press enter to play again."));
 }
 
-void UBullCowCartridge::ProcessGuess(FString Guess)
+void UBullCowCartridge::ProcessGuess(const FString& Guess)
 {
         // Checking if valid 
         if (Guess.Equals(HiddenWord, ESearchCase::IgnoreCase))
@@ -92,7 +93,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
         }
 }
 
-bool UBullCowCartridge::IsIsogram(FString Word) const
+bool UBullCowCartridge::IsIsogram(const FString& Word) const
 {
 
     for (int32 Index = 0; Index < Word.Len(); Index++)
@@ -109,17 +110,17 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
     return true;   
 }
 
-TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> WordsList) const
+TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordsList) const
 {
      TArray<FString> ValidWords;
 
-       for (int32 i = 0; i < WordsList.Num(); i++)
+       for (FString Word : WordsList)
     {
 
-        if (IsIsogram(WordsList[i]) && WordsList[i].Len() >= 4 && WordsList[i].Len() <= 7)
+        if (IsIsogram(Word) &&  Word.Len() >= 4 && Word.Len() <= 7)
         {
         
-            ValidWords.Emplace(WordsList[i]);
+            ValidWords.Emplace(Word);
 
         }   
     }
