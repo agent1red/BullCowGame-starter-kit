@@ -3,19 +3,17 @@
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
 
+
 void UBullCowCartridge::BeginPlay() // When the game starts 
 {
     Super::BeginPlay();
-    TArray<FString> Words;
+
+    
     const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordsList/HiddenWordList.txt");
-    FFileHelper::LoadFileToStringArray(Words, *WordListPath);
-    GetValidWords(Words);
+    FFileHelper::LoadFileToStringArray(WordList, *WordListPath);
+
+    Isograms = GetValidWords(WordList);
     SetupGame(); 
-
-    PrintLine(TEXT("The number of possible words is: %i"), Words.Num());
-    PrintLine(TEXT("The number of valid words is: %i"), GetValidWords(Words).Num());
-    PrintLine(TEXT("The HiddenWord is: %s"), *HiddenWord); // Debug Line   
-
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
@@ -36,16 +34,17 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
+    
     // Welcoming the player
     PrintLine(TEXT("Welcome to the Bull Cows Word game!\n"));  
-    HiddenWord = TEXT("cake"); 
+    HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num() - 1)]; 
     Lives = HiddenWord.Len();
     bGameOver = false;
-
+    
     PrintLine(TEXT("Guess the %i leter word!"), HiddenWord.Len());
     PrintLine(TEXT("You have %i Lives left"), Lives);
     PrintLine(TEXT("Type in your guess \nand Press Enter to continue..."));// Prompt player to guess 
-    
+    PrintLine(TEXT("The HiddenWord is: %s"), *HiddenWord); // Debug Line   
 }
 
 void UBullCowCartridge::EndGame()
@@ -91,6 +90,11 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
             EndGame();
             return;       
         }
+
+        int32 Bulls, Cows;
+        GetBullCows(Guess, Bulls, Cows);
+
+        PrintLine(TEXT("You have %i Bulls and %i Cows"), Bulls , Cows);
 }
 
 bool UBullCowCartridge::IsIsogram(const FString& Word) const
@@ -110,7 +114,7 @@ bool UBullCowCartridge::IsIsogram(const FString& Word) const
     return true;   
 }
 
-TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordsList) const
+TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> WordsList) const
 {
      TArray<FString> ValidWords;
 
@@ -126,4 +130,10 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordsLis
     }
     return ValidWords;
   
+}
+
+void UBullCowCartridge::GetBullCows(const FString& Guess, int32& BullCount, int32& CowCount) const
+{
+    BullCount, CowCount = 0;
+    
 }
